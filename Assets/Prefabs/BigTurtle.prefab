@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8775773889379013484}
   - component: {fileID: 2972802624591510944}
-  - component: {fileID: 926824225695013326}
+  - component: {fileID: -6134711284223271298}
   m_Layer: 0
-  m_Name: BigTurtle 1
+  m_Name: BigTurtle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &926824225695013326
-CircleCollider2D:
+--- !u!61 &-6134711284223271298
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -96,5 +96,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.18, y: 5.26}
+    newSize: {x: 5.18, y: 5.26}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 2
+  m_Size: {x: 3.8, y: 4}
+  m_EdgeRadius: 0
