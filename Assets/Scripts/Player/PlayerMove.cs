@@ -5,29 +5,32 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
-    private float Speed = 1900;
-    private Vector2 startPos;           //マウスを押したときのポジション
-    //private Vector2 BouncelastPos;      //他オブジェクトに当たった時の座標を取得
-    public int FlowFlag;               //行動パターンの数値を格納する変数
+    private float Speed = 1900;                     //キャラクターのスピード
+    [SerializeField]
+    private float Friction = 0.995f;                         //摩擦の数値
+
+    private Vector2 startPos;                       //マウスを押したときのポジション
+    private Vector2 BouncelastPos;                  //他オブジェクトに当たった時の座標を取得
+    public int FlowFlag;                            //行動パターンの数値を格納する変数
     private enum ACTIONNUM {WAIT, READY, MOVE};     //行動パターンのNum
-    private bool control;                           //　現在キャラクターを操作出来るかどうか
+    private bool control;                           //現在キャラクターを操作出来るかどうか
 
     Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        FlowFlag = (int)ACTIONNUM.WAIT;
+        FlowFlag = (int)ACTIONNUM.WAIT;             //最初は動かない
     }
 
-    //public void FixedUpdate()
-    //{
-    //    this.BouncelastPos = this.rb.velocity;
-    //}
+    public void FixedUpdate()
+    {
+        this.BouncelastPos = this.rb.velocity;      //反射のベクトルをvelocityに代入
+        Rubbing();                                  //摩擦を起こす
+    }
 
     void Update()
     {
-        Friction();     //摩擦の処理
 
         if (control)
         {
@@ -49,16 +52,11 @@ public class PlayerMove : MonoBehaviour
         }
         //Debug.Log(rb.velocity.magnitude);
     }
-    //public void OnCollisionEnter2D(Collision2D other)
-    //{
-    //    Vector2 refrectVec = Vector2.Reflect(this.BouncelastPos, other.contacts[0].normal);
-    //    this.rb.velocity = refrectVec;
-    //}
 
     //常に摩擦を起こす関数
-    private void Friction()
+    private void Rubbing()
     {
-        rb.velocity *= 0.993f;
+        this.rb.velocity *= Friction;
     }
 
     //クリックしてショットを放つための座標を取得
@@ -71,6 +69,7 @@ public class PlayerMove : MonoBehaviour
             Debug.Log(gameObject.transform.position);
         }
     }
+
     //そしてクリックした座標と指を離した座標を引いてショットの方角を決める
     public void OffButton()
     {
@@ -96,16 +95,19 @@ public class PlayerMove : MonoBehaviour
         float sin = Mathf.Sin(Time.time * 80) * 0.03f;
         this.transform.position = new Vector2(sin + gameObject.transform.position.x, gameObject.transform.position.y);
     }
-    //private void MoveAnimation()
-    //{
-    //    Vector2 endPos = Input.mousePosition;       //現在のマウス位置のピクセル座標
-    //    Vector2 startDirection = -1 * (endPos - startPos).normalized;
-    //    rb.AddForce(startDirection * Speed/*,ForceMode2D.Impulse*/);
-    //}
 
+    //ChangeChara.csで呼ばれる関数
     public void ChangeControl(bool controlFlag)         //現在操作しているキャラを変更する
     {
         control = controlFlag;                          //Changeマネージャーから操作可能のキャラ番号を受け取る
+    }
+
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        //★★★追加した反射をさせるための処理★★★
+        Vector2 refrectVec = Vector2.Reflect(this.BouncelastPos, other.contacts[0].normal);
+        this.rb.velocity = refrectVec;
     }
 
 }
