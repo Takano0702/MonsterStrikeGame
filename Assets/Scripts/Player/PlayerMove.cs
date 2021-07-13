@@ -6,8 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     private float Speed = 1900;                     //キャラクターのスピード
-    [SerializeField]
-    private float Friction = 0.995f;                         //摩擦の数値
+    private float Friction = 0.983f;                         //摩擦の数値
 
     private Vector2 startPos;                       //マウスを押したときのポジション
     private Vector2 BouncelastPos;                  //他オブジェクトに当たった時の座標を取得
